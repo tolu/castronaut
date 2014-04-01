@@ -1,0 +1,22 @@
+{
+  "name": "castronaut",
+  "version": "0.0.0",
+  "description": "Sender-receiver combo for googles chromecast",
+  "main": "sender.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tolu/castronaut.git"
+  },
+  "keywords": [
+    "chromecast"
+  ],
+  "author": "Tobias Lundin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tolu/castronaut/issues"
+  },
+  "homepage": "https://github.com/tolu/castronaut"
+}
