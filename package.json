@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "test"
+    "test": "grunt"
   },
   "repository": {
     "type": "git",
@@ -21,7 +21,7 @@
     "url": "https://github.com/tolu/castronaut/issues"
   },
   "homepage": "https://github.com/tolu/castronaut",
-  "devDependencies": {
+  "dependencies": {
     "express": "^3.5.1",
     "logfmt": "^1.1.2",
     "grunt": "^0.4.4",
