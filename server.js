@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 **/
 var express = require("express"),
+    http = require("http"),
 	logfmt = require("logfmt"),
     app     = express(),
     port    = Number(process.env.PORT || 5000);
@@ -38,6 +39,24 @@ app.listen(port, function () {
 	console.log('Server active and listening on port ' + port);
 });
 
+app.get('/popular', function (req, res) {
+    // http://tv.nrk.no/listobjects/mostpopular/Week
+    var url = 'http://tv.nrk.no/listobjects/mostpopular/week',
+        output = '';
+
+    http.get(url, function (response) {
+
+        response.on('data', function (chunk) {
+            output += chunk;
+        });
+        response.on('end', function () {
+            res.send(output);
+        });
+
+    }).on('error', function (e) {
+        console.log('Got error', e);
+    });
+});
 //http://84.202.184.214:{port}
 
 

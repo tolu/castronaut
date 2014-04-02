@@ -98,7 +98,8 @@ body {
     font-family: 'Open Sans', Helvetica, sans-serif;
 }
 
-
+.left { float: left; }
+.clear { clear: both; }
 
 
 

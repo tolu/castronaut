@@ -1,8 +1,50 @@
-body {
-  background-color:#eeeeff;
-  font-family: 'Roboto', "Open Sans", "Verdana", Georgia, Serif;
+.debug-wrapper {
+  position: absolute;
+  right: 0;
+  top: 0;
+  opacity: .5;
+  pointer-events:none;
+}
+.debug-wrapper textarea {
+  background: transparent;
+  text-align: right;
+  border: none;
 }
 
+input[type="range"] {
+  vertical-align:middle;
+}
+
+.box {
+  margin:10px;
+  width:90%;
+  background-color: rgba(0,0,0,.2);
+}
+
+#media_control {
+  position:relative;
+  width:97%;
+  margin:10px;
+}
+
+ul {
+  list-style: none;
+  padding:0;
+  margin:0;
+}
+.listobject { 
+  float: left; 
+  margin: 10px 0 0 10px;
+  width: 23.5%;
+}
+.listobject.last { 
+  margin-bottom: 10px;
+}
+.listobject h3 { display: none; }
+.listobject span { display: none; }
+.listobject-link }{ display: block;}
+
+img { width : 100%;}
 
 #title_text {
   width:100%;

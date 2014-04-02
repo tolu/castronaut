@@ -1,129 +1,110 @@
-<!--
-// Copyright 2014 Google Inc. All Rights Reserved.
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
--->
-
-<!DOCTYPE html>
+<!doctype html>
 <head>
-<title>Cast Web/Chrome Sender API Demo</title>
-<link rel="stylesheet" type="text/css" href="css/sender.css">
-<script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js"></script>
+    <title>Castronaut Test Page</title>
+    <link rel="stylesheet" type="text/css" href="css/sender.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js"></script>
 </head>
-<body>
-  <div>
+<body class="sans">
     <div>
-      <h2 style="display:block">Google Cast SDK Beta Release: Chrome SDK Media Meta Data Sample</h2>
-      <div style="border:1px solid #000; margin:10px; float:left; display:block; width:90%; background-color:#fcf;">
-        <h3 style="float:left; display:block; margin:10px;">Start/Stop Cast session by launching/stopping app</h3>
-        <button style="margin:10px; float:right; font-size:16px;" onclick="launchApp()">Launch app</button>
-        <button style="margin:10px; float:right; font-size:16px;" onclick="stopApp()">Stop app</button>
-        <select style="float:right; font-size:16px; margin-top:10px;" onchange="autoJoin(this.value);">
-          <option value="tab_and_origin_scoped">Auto join in same tab</option>
-          <option value="origin_scoped">Auto join across tabs</option>
-          <option value="page_scoped">No auto join</option>
-        </select>
-        <span style="margin:10px; float:right; font-size:80%;">Set auto join policy</span>
-      </div>
-      <div style="border:1px solid #000; margin:10px; float:left; display:block; width:90%; background-color: #ffc;">
-        <h2 style="display:block; margin:10px; color:#ff0000;">Click on thumbnails to cast video, movie, tv show, music and photo</h2>
-        <div style="margin:20px; float:left;">
-          <div style="font-weight:bold; color:#0000ff; font-size:90%;">Big Buck Buny video</div> 
-          <img src="images/bunny.jpg" width="150" height="80" onclick="loadMedia(0);">
-        </div>
-        <div style="margin:20px; float:left;">
-          <div style="font-weight:bold; color:#0000ff; font-size:90%;">Elephant Dream TV show</div> 
-           <img src="images/ed.jpg" width="150" height="80" onclick="loadMedia(1);">
-        </div>
-        <div style="margin:20px; float:left;">
-          <div style="font-weight:bold; color:#0000ff; font-size:90%;">Tears of Steel movie</div> 
-           <img src="images/Tears.jpg" width="150" height="80" onclick="loadMedia(2);">
-        </div>
-        <div style="margin:20px; float:left;">
-          <div style="font-weight:bold; color:#0000ff; font-size:90%;">Google I/O audio mp3</div> 
-           <img src="images/google-io-2011.jpg" width="150" height="80" onclick="loadMedia(3);">
-        </div>
-        <div style="margin:20px; float:left;">
-          <div style="font-weight:bold; color:#0000ff; font-size:90%;">San Francisco Fog photo</div> 
-           <img src="images/San_Francisco_Fog.jpg" width="100" height="80" onclick="loadMedia(4);">
-        </div>
-      </div>
-
-      <div style="border:1px solid #f00; margin:10px; float:left; display:block; width:90%; background-color: #ccc;">
-        <div style="float:left; margin:10px; float:left; width:98%;" id="media_control">
-          <h3 style="display:block; margin:10px 10px 10px 10px">Media Control</h3>
-          <div style="float:left; margin:10px; width:95%;">
-            <button style="font-size:16px;" id="playpauseresume" onclick="playMedia()">Play</button>
-            <button style="font-size:16px;" onclick="stopMedia()">Stop</button>
-            <div style="display:inline-block; margin:10px; width:70%;">
-                <input id="progress" style="width:100%;" type="range" min="1" max="100" value="1" step="0.1" onmouseup="seekMedia(this.value);">
+        <div>
+            <h2 style="display:block; margin-left:10px;">Castronaut tester page</h2>
+            
+            <!-- stop start -->
+            <div class="box left">
+                <h3 style="float:left; display:block; margin:10px;">Start/Stop Cast session by launching/stopping app</h3>
+                <div class="left clear">
+                    <button style="margin:10px; font-size:16px;" onclick="launchApp()">Launch app</button>
+                    <button style="margin:10px; font-size:16px;" disabled onclick="stopApp()">Stop app</button>
+                </div>
             </div>
-            <label id="muteText" for="mutePlease">Mute</label>
-            <input id="mutePlease" style="font-size:16px;" type="checkbox" onclick="muteMedia(this);"> 
-            <div style="float:right; margin-top:5px;width:40px;">
-                <input class="vertical"  style="width:100px;"type="range" min="0" max="100" step="1" onmouseup="setReceiverVolume(1-this.value/100);">
-             <div class="vertical" style="font-size:15px;">Volume</div>
+            
+            <!-- media from nrk -->
+            <div class="box left sample-box">
+                <h2 style="display:block; margin:10px; color:#000;">Click on thumbnails to cast</h2>
             </div>
-          </div>
-          <div style="float:left; margin:10px;">
-            State : <span id="playerstate">IDLE</span>
-            <img style="margin:10px;" src="images/cast_icon_idle.png" id="casticon" width="30">
-          </div>
-        </div>
+            
+            <!-- playback controls -->
+            <div class="box left">
+                <div class="left" id="media_control">
+                    <h3 style="display:block; margin:10px 10px 10px 10px">Media Control</h3>
+                    <div style="float:left; margin:0 10px; width:95%;">
+                        <button style="font-size:16px;" id="playpauseresume" onclick="playMedia()">Play</button>
+                        <button style="font-size:16px;" onclick="stopMedia()">Stop</button>
+                        <div style="display:inline-block; margin:10px; width:70%;">
+                            <input id="progress" style="width:100%;" type="range" min="1" max="100" value="1" step="0.1" onmouseup="seekMedia(this.value);">
+                        </div>
+                        <label id="muteText" for="mutePlease">Mute</label>
+                        <input id="mutePlease" style="font-size:16px;" type="checkbox" onclick="muteMedia(this);">
+                        <div class="left" style="margin-top:5px;">
+                            <span style="font-size:15px;">Volume</span>
+                            <input style="width:100px;"type="range" min="0" max="100" step="1" onmouseup="setReceiverVolume(1-this.value/100);">
+                        </div>
+                    </div>
+                    <div style="position:absolute; top:0; right:0;">
+                        State : <span id="playerstate">IDLE</span>
+                        <img style="margin:10px; vertical-align:middle;width:30px;" src="images/cast_icon_idle.png" id="casticon">
+                    </div>
+                </div>
+            </div>
 
-        <div style="float:left; margin:10px;">
-          <textarea rows="20" cols="70" id="debugmessage">
-          </textarea>
-        </div>
-      <div>
+            <!-- debug messages -->
+            <div class="debug-wrapper">
+                <textarea rows="20" cols="50" id="debugmessage"></textarea>
+            </div>
+
+            <!-- scripts -->
+            <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+            <script src="js/sender.js"></script>
+            <script type="text/javascript">
+            //populate media
+            $(function() {
+                $.get('popular', function (data) {
+                    var list = $(data).find('li').slice(0, 8);
+                    $('.sample-box').append($('<ul class="left">').append(list));
+                    list.eq(7).addClass('last');
+                    list.each(function (idx, el) {
+                        var $el = $(el);
+                        var title = $el.find('.listobject-title').text();
+                        var link = $el.find('a');
+                        var vid = link.attr('href').split('/')[3];
+
+                        link.removeAttr('href');
+                        link.attr('data-video-id', vid);
+                        link.attr('title', title);
+                    });
+                })
+            });
 
 
-
-    </div>
-  </div>
-<script src="js/sender.js"></script>
-<script type="text/javascript">
-
-// add stuff here
-function autoJoin(value) {
-  window.location.href = window.location.pathname + '?auto=' + value;
-};
-
-function launchApp () {
-    Castronaut.launchApp();
-}
-function stopApp () {
-    Castronaut.stopApp();
-}
-function loadMedia (index) {
-    Castronaut.loadMedia(index);
-}
-function playMedia () {
-    Castronaut.playMedia();
-}
-function stopMedia () {
-    Castronaut.stopMedia();
-}
-function muteMedia (el) {
-    Castronaut.toggleMuteMedia(el.checked);
-}
-function seekMedia (position) {
-    Castronaut.seekMedia(position);
-}
-function setReceiverVolume (level) {
-    Castronaut.setReceiverVolume(level,false);
-}
-</script>
-
-</body>
-</html>
+            // add stuff here
+            function autoJoin(value) {
+                window.location.href = window.location.pathname + '?auto=' + value;
+            };
+            function launchApp () {
+            Castronaut.launchApp();
+            }
+            function stopApp () {
+            Castronaut.stopApp();
+            }
+            function loadMedia (index) {
+            Castronaut.loadMedia(index);
+            }
+            function playMedia () {
+            Castronaut.playMedia();
+            }
+            function stopMedia () {
+            Castronaut.stopMedia();
+            }
+            function muteMedia (el) {
+            Castronaut.toggleMuteMedia(el.checked);
+            }
+            function seekMedia (position) {
+            Castronaut.seekMedia(position);
+            }
+            function setReceiverVolume (level) {
+            Castronaut.setReceiverVolume(level,false);
+            }
+            </script>
+        </body>
+    </html>
