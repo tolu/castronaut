@@ -11,7 +11,7 @@
 	// <script>
 	} else {
 		Castronaut = defenition();
-	};
+	}
 
 })(function () {
 "use strict";
@@ -62,25 +62,6 @@ function defineMedia () {
 var api = {};
 
 /**
- * parse query string
- */
-function getQueryParams() {
-	appendMessage("getQueryParams");
-    var qs = window.location.search.substring(1);
-    qs = qs.split("+").join(" ");
-
-    var params = {}, tokens,
-        re = /[?&]?([^=]+)=([^&]*)/g;
-
-    while (tokens = re.exec(qs)) {
-        params[decodeURIComponent(tokens[1])]
-            = decodeURIComponent(tokens[2]);
-    }
-
-    return params;
-}
-
-/**
  * initialization
  */
 function initializeCastApi() {
@@ -98,7 +79,7 @@ function initializeCastApi() {
     autoJoinPolicy);
 
   chrome.cast.initialize(apiConfig, onInitSuccess, onError);
-};
+}
 
 /**
  * Call initialization
@@ -142,14 +123,15 @@ function onStopAppSuccess() {
 function sessionListener(e) {
   appendMessage('New session ID:' + e.sessionId);
   session = e;
-  if (session.media.length != 0) {
+  if (session.media.length !== 0) {
     appendMessage(
         'Found ' + session.media.length + ' existing media sessions.');
     onMediaDiscovered('onRequestSessionSuccess_', session.media[0]);
   }
-  session.addMediaListener(
-      onMediaDiscovered.bind(this, 'addMediaListener'));
-  session.addUpdateListener(sessionUpdateListener.bind(this));  
+  /*jshint validthis:true*/
+  session.addMediaListener( onMediaDiscovered.bind(this, 'addMediaListener') );
+  session.addUpdateListener( sessionUpdateListener.bind(this) );
+  /*jshint validthis:false*/
 }
 
 /**
@@ -162,7 +144,7 @@ function sessionUpdateListener(isAlive) {
   if (!isAlive) {
     session = null;
   }
-};
+}
 
 /**
  * receiver listener during initialization
@@ -199,7 +181,7 @@ function onLaunchError() {
 api.launchApp = function () {
   appendMessage("launching app...");
   chrome.cast.requestSession(onRequestSessionSuccess, onLaunchError);
-}
+};
 
 /**
  * stop app/session
@@ -207,7 +189,7 @@ api.launchApp = function () {
 api.stopApp = function () {
   appendMessage("stopping app...");
   session.stop(onStopAppSuccess, onError);
-}
+};
 
 /**
  * load media
@@ -219,10 +201,9 @@ api.loadMedia = function (currentMediaIndex) {
     return;
   }
 
-  appendMessage("loading..." + media[currentMediaIndex]['url']);
-  var mediaInfo = new chrome.cast.media.MediaInfo(media[currentMediaIndex]['url']);
+  appendMessage( "loading..." + media[currentMediaIndex].url );
   
-  var mediaInfo = new chrome.cast.media.MediaInfo(media[currentMediaIndex]['url'], 'video/mp4');
+  var mediaInfo = new chrome.cast.media.MediaInfo( media[currentMediaIndex].url, 'video/mp4');
 
   switch(currentMediaIndex) {
     case chrome.cast.media.MetadataType.GENERIC:
@@ -283,15 +264,15 @@ api.loadMedia = function (currentMediaIndex) {
       break;
   }
 
-  mediaInfo.metadata.title = media[currentMediaIndex]['title'];
-  mediaInfo.metadata.images = [{'url': 'http://www.videws.com/eureka/castv2/' + media[currentMediaIndex]['thumb']}];
+  mediaInfo.metadata.title = media[currentMediaIndex].title;
+  mediaInfo.metadata.images = [{'url': 'http://www.videws.com/eureka/castv2/' + media[currentMediaIndex].thumb }];
 
   var request = new chrome.cast.media.LoadRequest(mediaInfo);
   request.autoplay = true;
   request.currentTime = 0;
   session.loadMedia(request,onMediaDiscovered.bind(this, 'loadMedia'), onMediaError.bind(this));
 
-}
+};
 
 /**
  * callback on success for loading media
@@ -360,7 +341,7 @@ api.playMedia = function () {
       }
     }
   }
-}
+};
 
 /**
  * stop media
@@ -375,7 +356,7 @@ api.stopMedia = function () {
   var playpauseresume = document.getElementById("playpauseresume");
   playpauseresume.innerHTML = 'Play';
   appendMessage("media stopped");
-}
+};
 
 /**
  * set media volume
@@ -395,7 +376,7 @@ api.setMediaVolume = function (level, mute) {
   currentMediaSession.setVolume(request,
     mediaCommandSuccessCallback.bind(this, 'media set-volume done'),
     onError);
-}
+};
 
 /**
  * set receiver volume
@@ -417,7 +398,7 @@ api.setReceiverVolume = function (level, mute) {
       mediaCommandSuccessCallback.bind(this, 'media set-volume done'),
       onError);
   }
-}
+};
 
 /**
  * mute media
@@ -436,7 +417,7 @@ api.toggleMuteMedia = function (doMute) {
     api.setReceiverVolume(currentVolume, false);
     appendMessage("media unmuted");
   }
-}
+};
 
 
 /**
@@ -452,7 +433,7 @@ api.seekMedia = function (pos) {
   currentMediaSession.seek(request,
     onSeekSuccess.bind(this, 'media seek done'),
     onError);
-}
+};
 
 /**
  * callback on success for media commands
@@ -461,7 +442,7 @@ api.seekMedia = function (pos) {
  */
 function onSeekSuccess(info) {
   appendMessage(info);
-  setTimeout(function(){progressFlag = 1},1500);
+  setTimeout(function(){progressFlag = 1;},1500);
 }
 
 /**
@@ -484,7 +465,7 @@ function appendMessage(message, data) {
   
   if(data) console.log(message, data);
   else console.log(message);
-};
+}
 
 return api;
 

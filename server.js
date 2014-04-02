@@ -14,8 +14,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 **/
 var express = require("express"),
+	logfmt = require("logfmt"),
     app     = express(),
-    port    = 9999;
+    port    = Number(process.env.PORT || 5000);
 
 //CORS middleware
 var allowCrossDomain = function(req, res, next) {
@@ -26,12 +27,16 @@ var allowCrossDomain = function(req, res, next) {
     next();
 }
 
+app.use(logfmt.requestLogger());
+
 app.configure(function() {
     app.use(allowCrossDomain);
     app.use(express.static(__dirname));
 });
 
-app.listen(port);
+app.listen(port, function () {
+	console.log('Server active and listening on port ' + port);
+});
 //http://84.202.184.214:{port}
 
 
