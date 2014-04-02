@@ -29,4 +29,6 @@ module.exports = function (grunt) {
 	// Heroku buildpack
 	grunt.registerTask('heroku', ['jshint']);
 
+	grunt.registerTask('default', ['jshint']);
+
 };
