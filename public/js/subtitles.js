@@ -8,16 +8,7 @@ var styleToElMap = {
 };
 
 function loadTTML(progId){
-	var dfd = $.Deferred();
-
-    $.get("/subtitles/" + progId).done(function (data) {
-    	var parser = new DOMParser();
-    	var xdoc = parser.parseFromString(data, 'text/xml');
-
-    	dfd.resolve(xdoc);
-    });
-    
-    return dfd.promise();
+    return $.get("/subtitles/" + progId)
 }
 
 function getTextValue( childNodes ){
