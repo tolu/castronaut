@@ -36,6 +36,7 @@ exports.subtitles = function (req, res, next) {
 		next();
 	}
 	
+    res.header('Content-Type', 'text/xml');
 	http.get(url.replace('{pid}', req.params.pid), function (response) {
         response.on('data', function (chunk) {
             output += chunk;
