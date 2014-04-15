@@ -23,6 +23,7 @@
   "homepage": "https://github.com/tolu/castronaut",
   "dependencies": {
     "express": "^3.5.1",
+    "request": "^2.34.0",
     "logfmt": "^1.1.2",
     "grunt": "^0.4.4",
     "load-grunt-tasks": "^0.4.0",
@@ -32,8 +33,5 @@
   },
   "engines": {
     "node": "0.10.x"
-  },
-  "devDependencies": {
-    "request": "^2.34.0"
   }
 }
