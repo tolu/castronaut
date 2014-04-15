@@ -209,6 +209,9 @@ api.loadMedia = function (videoId) {
 
     var mediaInfo = new chrome.cast.media.MediaInfo( mediaUrl, 'video/mp4');
 
+    mediaInfo.metadata = new chrome.cast.media.GenericMediaMetadata();
+    mediaInfo.metadata.metadataType = chrome.cast.media.MetadataType.TV_SHOW;
+
     /*switch(currentMediaIndex) {
       case chrome.cast.media.MetadataType.GENERIC:
         mediaInfo.metadata = new chrome.cast.media.GenericMediaMetadata();
@@ -269,7 +272,7 @@ api.loadMedia = function (videoId) {
     }*/
 
     mediaInfo.metadata.title = data.title;
-    //mediaInfo.metadata.images = [{'url': 'http://www.videws.com/eureka/castv2/' + media[currentMediaIndex].thumb }];
+    mediaInfo.metadata.images = [{'url': data.images.webImages[0].imageUrl }];
 
     var request = new chrome.cast.media.LoadRequest(mediaInfo);
     request.autoplay = true;
