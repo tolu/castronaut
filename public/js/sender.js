@@ -196,10 +196,10 @@ api.stopApp = function () {
  * @param {string} a videoId for media
  */
 api.loadMedia = function (videoId) {
-  /*if (!session) {
+  if (!session) {
     appendMessage("no session");
     return;
-  }*/
+  }
 
   appendMessage( "loading..." + videoId );
 
