@@ -207,7 +207,6 @@ api.loadMedia = function (videoId) {
 
     var mediaUrl = data.mediaUrl.split('?')[0];
 
-    return;
     var mediaInfo = new chrome.cast.media.MediaInfo( mediaUrl, 'video/mp4');
 
     /*switch(currentMediaIndex) {
