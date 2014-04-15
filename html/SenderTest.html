@@ -71,7 +71,7 @@
 
                         link.removeAttr('href');
                         link.attr('data-video-id', vid);
-                        link.attr('title', title);
+                        link.attr('title', vid);
                         link.on('click', loadMedia.bind(link, vid));
                     });
                 })
