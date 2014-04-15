@@ -32,7 +32,7 @@ app.listen(port, function () {
 
 //app.get('/', routes.index);
 app.get('/popular', routes.popular);
-app.get('/ttml/:id', routes.subtitles);
+app.get('/subtitles/:pid', routes.subtitles);
 
 /* HTTPS Server
  * http://stackoverflow.com/questions/11744975/enabling-https-on-express-js

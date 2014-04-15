@@ -1,4 +1,4 @@
-
+var http = require("http");
 /*
  * Get index page
  */
@@ -30,23 +30,20 @@ exports.popular = function (req, res) {
 /*
  * Get TTML subtitles
  */
-exports.subtitles = function (req, res, next, id) {
-	var idd = req.id;
-	console.log('req.id : ' + req.id);
-	console.log('variable id : ' + id);
-    var url = 'http://psapi.nrk.no/programs/{id}/subtitles/tt',
-        output = '';
-
-    /*http.get(url, function (response) {
-
+exports.subtitles = function (req, res, next) {
+	var url = 'http://psapi.nrk.no/programs/{pid}/subtitles/tt', output = '';
+	if(!req.params.pid){
+		next();
+	}
+	
+	http.get(url.replace('{pid}', req.params.pid), function (response) {
         response.on('data', function (chunk) {
             output += chunk;
         });
         response.on('end', function () {
             res.send(output);
         });
-
     }).on('error', function (e) {
         console.log('Got error', e);
-    });*/
+    });
 }
