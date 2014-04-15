@@ -4,6 +4,7 @@
     <link rel="stylesheet" type="text/css" href="css/sender.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 </head>
 <body class="sans">
     <div>
@@ -54,7 +55,6 @@
             </div>
 
             <!-- scripts -->
-            <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
             <script src="js/sender.js"></script>
             <script type="text/javascript">
             //populate media
@@ -72,6 +72,7 @@
                         link.removeAttr('href');
                         link.attr('data-video-id', vid);
                         link.attr('title', title);
+                        link.on('click', loadMedia.bind(link, vid));
                     });
                 })
             });
@@ -87,8 +88,8 @@
             function stopApp () {
                 Castronaut.stopApp();
             }
-            function loadMedia (index) {
-                Castronaut.loadMedia(index);
+            function loadMedia (videoId) {
+                Castronaut.loadMedia(videoId);
             }
             function playMedia () {
                 Castronaut.playMedia();

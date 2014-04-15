@@ -32,6 +32,7 @@ app.listen(port, function () {
 
 //app.get('/', routes.index);
 app.get('/popular', routes.popular);
+app.get('/meta/:pid', routes.meta);
 app.get('/subtitles/:pid', routes.subtitles);
 
 /* HTTPS Server

@@ -1,4 +1,4 @@
-var http = require("http");
+var request = require("request");
 /*
  * Get index page
  */
@@ -10,21 +10,38 @@ exports.index = function (req, res) {
  * Get popular items list
  */
 exports.popular = function (req, res) {
-    var url = 'http://tv.nrk.no/listobjects/mostpopular/week',
-        output = '';
+    var url = 'http://tv.nrk.no/listobjects/mostpopular/week';
 
-    http.get(url, function (response) {
+    request(url, function (error, response, body) {
+            if(!error && response.statusCode === 200){
+                res.send(body);
+            } else {
+                console.log('Got error', error);
+            }
+        }
+    );
+}
 
-        response.on('data', function (chunk) {
-            output += chunk;
-        });
-        response.on('end', function () {
-            res.send(output);
-        });
+exports.meta = function (req, res, next) {
+    var url = 'http://psapi.nrk.no/mediaelement/';
+    if(!req.params.pid) next();
 
-    }).on('error', function (e) {
-        console.log('Got error', e);
-    });
+    var options = {
+        url: url + req.params.pid,
+        headers : { // set user agent to iOS 6 to get correct meta
+            'User-agent' : 'Mozilla/5.0 (iPhone; CPU iPhone OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5376e Safari/8536.25'
+        } 
+    }
+
+    res.header('Content-Type', 'application/json');
+    request(options, function (error, response, body) {
+            if(!error && response.statusCode === 200){
+                res.send(body);
+            } else {
+                console.log('Got error', error);
+            }
+        }
+    );
 }
 
 /*
@@ -35,16 +52,13 @@ exports.subtitles = function (req, res, next) {
 	if(!req.params.pid){
 		next();
 	}
-	
     res.header('Content-Type', 'text/xml');
-	http.get(url.replace('{pid}', req.params.pid), function (response) {
-        response.on('data', function (chunk) {
-            output += chunk;
-        });
-        response.on('end', function () {
-            res.send(output);
-        });
-    }).on('error', function (e) {
-        console.log('Got error', e);
-    });
+	request(url.replace('{pid}', req.params.pid), function (error, response, body) {
+            if (!error && response.statusCode === 200) {
+                res.send(body);
+            } else {
+                console.log('Got error', error);
+            }
+        }
+    );
 }

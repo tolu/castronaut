@@ -42,7 +42,7 @@ ul {
 }
 .listobject h3 { display: none; }
 .listobject span { display: none; }
-.listobject-link }{ display: block;}
+.listobject-link { display: block; cursor:pointer;}
 
 img { width : 100%;}
 

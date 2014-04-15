@@ -28,7 +28,7 @@ var session = null;
 var autoJoinPolicy;
 var media = [];
 
-function defineMedia () {
+/*function defineMedia () {
 	media = [
 	    {'url':'http://commondatastorage.googleapis.com/gtv-videos-bucket/big_buck_bunny_1080p.mp4',
 	     'title':'Big Buck Bunny',
@@ -56,7 +56,7 @@ function defineMedia () {
 	     'metadataType':chrome.cast.media.MetadataType.PHOTO,
 	    },
 	];
-}
+}*/
 
 // methods added to api will be made public
 var api = {};
@@ -66,7 +66,7 @@ var api = {};
  */
 function initializeCastApi() {
   appendMessage("initializeCastApi");
-  defineMedia();
+  // defineMedia();
  
  // Automatically connects when the session was started with 
  // the same appId and the same page origin (regardless of tab).
@@ -193,84 +193,91 @@ api.stopApp = function () {
 
 /**
  * load media
- * @param {string} i An index for media
+ * @param {string} a videoId for media
  */
-api.loadMedia = function (currentMediaIndex) {
-  if (!session) {
+api.loadMedia = function (videoId) {
+  /*if (!session) {
     appendMessage("no session");
     return;
-  }
+  }*/
 
-  appendMessage( "loading..." + media[currentMediaIndex].url );
-  
-  var mediaInfo = new chrome.cast.media.MediaInfo( media[currentMediaIndex].url, 'video/mp4');
+  appendMessage( "loading..." + videoId );
 
-  switch(currentMediaIndex) {
-    case chrome.cast.media.MetadataType.GENERIC:
-      mediaInfo.metadata = new chrome.cast.media.GenericMediaMetadata();
-      mediaInfo.metadata.metadataType = chrome.cast.media.MetadataType.GENERIC;
-      mediaInfo.metadata.subtitle = 'By Blender Foundation';
-      mediaInfo.metadata.releaseDate = '2000';
-      mediaInfo.contentType = 'video/mp4';
-      document.getElementById("media_control").style.display = 'block';
-      break;
-    case chrome.cast.media.MetadataType.TV_SHOW:
-      mediaInfo.metadata = new chrome.cast.media.TvShowMediaMetadata();
-      mediaInfo.metadata.metadataType = chrome.cast.media.MetadataType.TV_SHOW;
-      mediaInfo.metadata.seriesTitle = 'seriesTitle';
-      mediaInfo.metadata.subtitle = 'Elephant Dream';
-      mediaInfo.metadata.season = 5;
-      mediaInfo.metadata.episode = 23;
-      mediaInfo.metadata.originalAirDate = '2011';
-      mediaInfo.contentType = 'video/mov';
-      document.getElementById("media_control").style.display = 'block';
-      break;
-    case chrome.cast.media.MetadataType.MOVIE:
-      mediaInfo.metadata = new chrome.cast.media.MovieMediaMetadata();
-      mediaInfo.metadata.metadataType = chrome.cast.media.MetadataType.MOVIE;
-      mediaInfo.metadata.subtitle = 'steel steel steel';
-      mediaInfo.metadata.studio = 'By Blender Foundation';
-      mediaInfo.metadata.releaseDate = '2006';
-      mediaInfo.contentType = 'video/mp4';
-      document.getElementById("media_control").style.display = 'block';
-      break;
-    case chrome.cast.media.MetadataType.MUSIC_TRACK:
-      mediaInfo.metadata = new chrome.cast.media.MusicTrackMediaMetadata();
-      mediaInfo.metadata.metadataType = chrome.cast.media.MetadataType.MUSIC_TRACK;
-      mediaInfo.metadata.albumName = 'Album name';
-      mediaInfo.metadata.albumArtist = 'Album artist';
-      mediaInfo.metadata.artist = 'Music artist';
-      mediaInfo.metadata.composer = 'Composer';
-      mediaInfo.metadata.trackNumber = 13;
-      mediaInfo.metadata.discNumber = 2;
-      mediaInfo.metadata.releaseDate = '2011';
-      mediaInfo.contentType = 'audio/mp3';
-      document.getElementById("media_control").style.display = 'block';
-      break;
-    case chrome.cast.media.MetadataType.PHOTO:
-      mediaInfo.metadata = new chrome.cast.media.PhotoMediaMetadata();
-      mediaInfo.metadata.metadataType = chrome.cast.media.MetadataType.PHOTO;
-      mediaInfo.metadata.artist = 'Photo artist';
-      mediaInfo.metadata.location = 'San Francisco';
-      mediaInfo.metadata.longitude = 37.7833;
-      mediaInfo.metadata.latitude = 122.4167;
-      mediaInfo.metadata.width = 1728;
-      mediaInfo.metadata.height = 1152;
-      mediaInfo.metadata.creationDateTime = '1999';
-      mediaInfo.contentType = 'image/jpg';
-      document.getElementById("media_control").style.display = 'none';
-      break;
-    default:
-      break;
-  }
+  $.getJSON('/meta/'+videoId).done(function (data) {
 
-  mediaInfo.metadata.title = media[currentMediaIndex].title;
-  mediaInfo.metadata.images = [{'url': 'http://www.videws.com/eureka/castv2/' + media[currentMediaIndex].thumb }];
+    var mediaUrl = data.mediaUrl.split('?')[0];
 
-  var request = new chrome.cast.media.LoadRequest(mediaInfo);
-  request.autoplay = true;
-  request.currentTime = 0;
-  session.loadMedia(request,onMediaDiscovered.bind(this, 'loadMedia'), onMediaError.bind(this));
+    return;
+    var mediaInfo = new chrome.cast.media.MediaInfo( mediaUrl, 'video/mp4');
+
+    /*switch(currentMediaIndex) {
+      case chrome.cast.media.MetadataType.GENERIC:
+        mediaInfo.metadata = new chrome.cast.media.GenericMediaMetadata();
+        mediaInfo.metadata.metadataType = chrome.cast.media.MetadataType.GENERIC;
+        mediaInfo.metadata.subtitle = 'By Blender Foundation';
+        mediaInfo.metadata.releaseDate = '2000';
+        mediaInfo.contentType = 'video/mp4';
+        document.getElementById("media_control").style.display = 'block';
+        break;
+      case chrome.cast.media.MetadataType.TV_SHOW:
+        mediaInfo.metadata = new chrome.cast.media.TvShowMediaMetadata();
+        mediaInfo.metadata.metadataType = chrome.cast.media.MetadataType.TV_SHOW;
+        mediaInfo.metadata.seriesTitle = 'seriesTitle';
+        mediaInfo.metadata.subtitle = 'Elephant Dream';
+        mediaInfo.metadata.season = 5;
+        mediaInfo.metadata.episode = 23;
+        mediaInfo.metadata.originalAirDate = '2011';
+        mediaInfo.contentType = 'video/mov';
+        document.getElementById("media_control").style.display = 'block';
+        break;
+      case chrome.cast.media.MetadataType.MOVIE:
+        mediaInfo.metadata = new chrome.cast.media.MovieMediaMetadata();
+        mediaInfo.metadata.metadataType = chrome.cast.media.MetadataType.MOVIE;
+        mediaInfo.metadata.subtitle = 'steel steel steel';
+        mediaInfo.metadata.studio = 'By Blender Foundation';
+        mediaInfo.metadata.releaseDate = '2006';
+        mediaInfo.contentType = 'video/mp4';
+        document.getElementById("media_control").style.display = 'block';
+        break;
+      case chrome.cast.media.MetadataType.MUSIC_TRACK:
+        mediaInfo.metadata = new chrome.cast.media.MusicTrackMediaMetadata();
+        mediaInfo.metadata.metadataType = chrome.cast.media.MetadataType.MUSIC_TRACK;
+        mediaInfo.metadata.albumName = 'Album name';
+        mediaInfo.metadata.albumArtist = 'Album artist';
+        mediaInfo.metadata.artist = 'Music artist';
+        mediaInfo.metadata.composer = 'Composer';
+        mediaInfo.metadata.trackNumber = 13;
+        mediaInfo.metadata.discNumber = 2;
+        mediaInfo.metadata.releaseDate = '2011';
+        mediaInfo.contentType = 'audio/mp3';
+        document.getElementById("media_control").style.display = 'block';
+        break;
+      case chrome.cast.media.MetadataType.PHOTO:
+        mediaInfo.metadata = new chrome.cast.media.PhotoMediaMetadata();
+        mediaInfo.metadata.metadataType = chrome.cast.media.MetadataType.PHOTO;
+        mediaInfo.metadata.artist = 'Photo artist';
+        mediaInfo.metadata.location = 'San Francisco';
+        mediaInfo.metadata.longitude = 37.7833;
+        mediaInfo.metadata.latitude = 122.4167;
+        mediaInfo.metadata.width = 1728;
+        mediaInfo.metadata.height = 1152;
+        mediaInfo.metadata.creationDateTime = '1999';
+        mediaInfo.contentType = 'image/jpg';
+        document.getElementById("media_control").style.display = 'none';
+        break;
+      default:
+        break;
+    }*/
+
+    mediaInfo.metadata.title = data.title;
+    //mediaInfo.metadata.images = [{'url': 'http://www.videws.com/eureka/castv2/' + media[currentMediaIndex].thumb }];
+
+    var request = new chrome.cast.media.LoadRequest(mediaInfo);
+    request.autoplay = true;
+    request.currentTime = 0;
+    session.loadMedia(request,onMediaDiscovered.bind(this, 'loadMedia'), onMediaError.bind(this));
+
+  });
 
 };
 
