@@ -55,7 +55,8 @@ function extractCueDataFromTTML(ttmlDoc){
             stop = start + complexTimeToSeconds(node.getAttribute('dur')),
             value = getTextValue([].slice.call(node.childNodes, 0));
 
-        cues.push( new VTTCue(start, stop, value) );
+        // http://msdn.microsoft.com/en-us/library/windows/apps/hh767400.aspx
+        cues.push( new TextTrackCue(start, stop, value) );
     });
     
     return cues;
@@ -77,7 +78,9 @@ window.loadSubtitles = function (progId) {
 	    
 	    // create and add track element to video
 	    var vid = document.querySelector('video');
-	    vid.addTextTrack("subtitles", "sample");
+	    
+	    // kind: subtitles, captions, descriptions, chapters, metadata
+	    vid.addTextTrack("subtitles" /*kind*/, "sample" /*label*/);
 	    
 	    // add cues to text track
 	    var track = vid.textTracks[0];
